@@ -6,7 +6,7 @@ project_id = "dnd.bar.supabase"
 # disable authentication
 verify_jwt = false
 # set location of the Deno import map
-import_map = './functions/import_map.json'
+import_map = './functions/deno.json'
 
 [api]
 enabled = true

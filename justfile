@@ -6,7 +6,8 @@ stop:
   supabase stop
 
 generate:
-  supabase gen types typescript --local | tee -a ./ui/src/database.types.ts ./supabase/functions/api/database.types.ts >/dev/null
+  find . -name "database.types.ts" -print0 | xargs -0 -r rm
+  supabase gen types typescript --local | tee -a ./ui/src/database.types.ts ./supabase/functions/api/database.types.ts > /dev/null
 
 fmt:
   prettier --write

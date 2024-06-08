@@ -1,11 +1,11 @@
 import { sumBy } from "lodash";
 
-import { Item, TableRow } from "./orders";
-import { FC } from 'react';
+import { Item, TableRow } from "../../orders";
+import { FC } from "react";
 
 // @TODO dynamic number of rounds
 interface Props {
-  rows: TableRow[]
+  rows: TableRow[];
 }
 
 export const Table = ({ rows = [] }: Props) => {

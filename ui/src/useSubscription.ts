@@ -9,8 +9,8 @@ export function useSessionSubscription(
   const subscriptionURL = `${FUNCTION_BASE_URL}/sessions/${session}/sse`;
   const source = useRef<EventSource | null>();
 
-  const handleError = useCallback(() => {
-    console.log("error in SSE stream");
+  const handleError = useCallback((event: Event) => {
+    console.log("error in SSE stream", event);
   }, []);
 
   useEffect(() => {
@@ -20,6 +20,7 @@ export function useSessionSubscription(
       client = new EventSource(subscriptionURL);
       client.onerror = handleError;
       client.addEventListener("update", onUpdate);
+      client.addEventListener("error", handleError);
     }
 
     // clean up

@@ -1,39 +1,19 @@
 import { Table } from "./Table";
-import { mapDatabaseRowToTableRow } from "./orders";
-import { useSessionSubscription } from "./useSubscription";
+import { mapDatabaseRowToTableRow } from "../../orders";
+import { useSessionSubscription } from "../../useSubscription";
 import { QRCode } from "react-qrcode-logo";
 import { useState } from "react";
 import { IconShare2 } from "@tabler/icons-react";
-import { useParams } from "react-router-dom";
-import invariant from "tiny-invariant";
-import { useQuery } from "@tanstack/react-query";
-import { fetchOrdersForSession } from "./api";
-import { Loading } from "./Loading";
+import { useRouter } from "@tanstack/react-router";
+import { Route } from "../../routes/sessions/$sessionId.lazy";
 
 function SessionView() {
-  const { sessionID } = useParams();
-  invariant(sessionID);
-
-  const {
-    data: orders,
-    isLoading,
-    error,
-    refetch,
-  } = useQuery({
-    queryKey: ["orders"],
-    queryFn: () => fetchOrdersForSession(sessionID),
-  });
+  const router = useRouter();
+  const { sessionId } = Route.useParams();
+  const orders = Route.useLoaderData();
 
   // refetch everything in the session when we receive an update signal
-  useSessionSubscription(sessionID, refetch);
-
-  if (isLoading) {
-    return <Loading />;
-  }
-
-  if (error) {
-    throw error;
-  }
+  useSessionSubscription(sessionId, router.invalidate);
 
   const rows = mapDatabaseRowToTableRow(orders ?? []);
   return (

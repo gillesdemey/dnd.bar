@@ -15,6 +15,10 @@ const app = new Hono().basePath("/api");
 // set up cors for all routes, disable cache for all routes
 app.use(cors());
 
+app.get("/", async (c) => {
+  return c.text("Hello!");
+});
+
 /* apply session check and supabase middleware */
 app.get("/sessions/:session/orders", checkSession, supabase, async (c) => {
   const { sessionID, supabase } = c.var;
